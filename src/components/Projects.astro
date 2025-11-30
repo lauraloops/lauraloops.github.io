@@ -1,0 +1,119 @@
+---
+const projects = [
+  {
+    title: "Genomic Data Analysis",
+    description: "A comprehensive analysis of genomic datasets using Python and R to identify potential biomarkers.",
+    tags: ["Python", "R", "Bioinformatics"],
+    image: "project-1-placeholder"
+  },
+  {
+    title: "Protein Structure Prediction",
+    description: "Machine learning model developed to predict secondary protein structures with high accuracy.",
+    tags: ["Machine Learning", "PyTorch", "Structural Biology"],
+    image: "project-2-placeholder"
+  },
+  {
+    title: "Clinical Data Visualization",
+    description: "Interactive dashboard for visualizing clinical trial data trends and patient demographics.",
+    tags: ["React", "D3.js", "Data Viz"],
+    image: "project-3-placeholder"
+  }
+];
+---
+
+<section id="projects" class="projects">
+  <div class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    
+    <div class="projects-grid">
+      {projects.map((project) => (
+        <div class="project-card">
+          <div class="card-image">
+            <div class="placeholder-image">{project.title} Image</div>
+          </div>
+          <div class="card-content">
+            <h3>{project.title}</h3>
+            <p>{project.description}</p>
+            <div class="tags">
+              {project.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <a href="#" class="project-link">View Details →</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects {
+    background: var(--color-bg);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .project-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .card-image {
+    height: 200px;
+    background: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .placeholder-image {
+    color: #7f8c8d;
+    font-weight: 500;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .card-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-dark);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .tag {
+    background: rgba(9, 132, 227, 0.1);
+    color: var(--color-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .project-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+</style>

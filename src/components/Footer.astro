@@ -1,0 +1,30 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+  <div class="container">
+    <p>&copy; {currentYear} Laura Llorente. All rights reserved.</p>
+    <p class="credits">Designed & Built with Astro</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--color-dark);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    color: #b2bec3;
+    font-size: 0.9rem;
+  }
+
+  .credits {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+</style>
