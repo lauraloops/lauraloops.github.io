@@ -1,0 +1,145 @@
+<div id="dna-canvas-container"></div>
+
+<script>
+  import * as THREE from "three";
+
+  const container = document.getElementById("dna-canvas-container");
+
+  if (container) {
+    // Scene Setup
+    const scene = new THREE.Scene();
+    // Transparent background to blend with the gradient
+    scene.background = null;
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      container.clientWidth / container.clientHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 20;
+    camera.position.y = 0;
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // DNA Structure Parameters
+    const DNA_LENGTH = 40;
+    const RADIUS = 4;
+    const TURNS = 3;
+    const Y_START = -12;
+    const Y_END = 12;
+    const Y_STEP = (Y_END - Y_START) / DNA_LENGTH;
+
+    // Groups to hold the DNA
+    const dnaGroup = new THREE.Group();
+    scene.add(dnaGroup);
+
+    // Materials
+    const materialPrimary = new THREE.MeshPhongMaterial({
+      color: 0x8d6e63,
+      shininess: 100,
+      specular: 0xffffff,
+    });
+    const materialSecondary = new THREE.MeshPhongMaterial({
+      color: 0xd7ccc8,
+      shininess: 100,
+      specular: 0xffffff,
+    });
+    const materialBond = new THREE.MeshBasicMaterial({
+      color: 0x767676,
+      transparent: true,
+      opacity: 0.3,
+    });
+
+    // Geometry for atoms and bonds
+    const sphereGeo = new THREE.SphereGeometry(0.6, 16, 16);
+    const bondGeo = new THREE.CylinderGeometry(0.1, 0.1, 1, 8);
+
+    // Generate DNA
+    for (let i = 0; i < DNA_LENGTH; i++) {
+      const y = Y_START + i * Y_STEP;
+      const angle = (i / DNA_LENGTH) * Math.PI * 2 * TURNS;
+
+      // Strand 1 Position
+      const x1 = Math.cos(angle) * RADIUS;
+      const z1 = Math.sin(angle) * RADIUS;
+
+      // Strand 2 Position (180 degrees offset)
+      const x2 = Math.cos(angle + Math.PI) * RADIUS;
+      const z2 = Math.sin(angle + Math.PI) * RADIUS;
+
+      // Create Atoms
+      const atom1 = new THREE.Mesh(sphereGeo, materialPrimary);
+      atom1.position.set(x1, y, z1);
+      dnaGroup.add(atom1);
+
+      const atom2 = new THREE.Mesh(sphereGeo, materialSecondary);
+      atom2.position.set(x2, y, z2);
+      dnaGroup.add(atom2);
+
+      // Create Bond (Base Pair)
+      // Calculate distance and midpoint
+      const start = new THREE.Vector3(x1, y, z1);
+      const end = new THREE.Vector3(x2, y, z2);
+      const distance = start.distanceTo(end);
+
+      const bond = new THREE.Mesh(bondGeo, materialBond);
+      bond.scale.y = distance; // Scale cylinder to match distance
+      bond.position.copy(start).lerp(end, 0.5); // Position at midpoint
+      bond.lookAt(end); // Rotate to face end point
+      bond.rotateX(Math.PI / 2); // Adjust cylinder orientation
+      dnaGroup.add(bond);
+    }
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(10, 10, 20);
+    scene.add(pointLight);
+
+    const pointLight2 = new THREE.PointLight(0x8d6e63, 0.8);
+    pointLight2.position.set(-10, -10, -10);
+    scene.add(pointLight2);
+
+    // Animation Loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      // Rotate the DNA
+      dnaGroup.rotation.y += 0.005;
+
+      // Gentle floating effect
+      dnaGroup.position.y = Math.sin(Date.now() * 0.001) * 0.5;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Handle Resize
+    window.addEventListener("resize", () => {
+      if (container) {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      }
+    });
+  }
+</script>
+
+<style>
+  #dna-canvas-container {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    /* Ensure it sits correctly in the layout */
+    display: block;
+  }
+</style>

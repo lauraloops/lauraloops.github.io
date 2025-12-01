@@ -1,53 +1,109 @@
 ---
+import DNA3D from "./DNA3D.astro";
 ---
 
 <section id="home" class="hero">
+  <div class="dna-strip top-strip">
+    <img src="/images/FINAL_VIDEO.gif" alt="DNA Sequence" />
+  </div>
+
   <div class="container hero-content">
     <div class="text-content">
-      <span class="subtitle">Bioinformatics Student</span>
-      <h1>Laura Llorente</h1>
-      <p class="role">Undergraduate Bioinformatics, Data Management & Analytics Intern</p>
-      <p class="description">
-        Exploring the intersection of biology and data science to solve complex problems.
+      <span class="subtitle typing-cursor">Bioinformatics Student</span>
+      <h1 class="reveal stagger-1">Laura Llorente</h1>
+      <p class="role reveal stagger-2">
+        Undergraduate Bioinformatics, Data Management & Analytics Intern
       </p>
-      <div class="cta-buttons">
+      <p class="description reveal stagger-3">
+        Exploring the intersection of biology and data science to solve complex
+        problems.
+      </p>
+      <div class="cta-buttons reveal stagger-4">
         <a href="#projects" class="btn">View Projects</a>
         <a href="#contact" class="btn btn-outline">Contact Me</a>
       </div>
     </div>
-    
-    <div class="visual-content">
+
+    <div class="visual-content reveal stagger-2">
       <div class="photo-wrapper">
         <!-- Placeholder for Laura's photo -->
         <div class="photo-placeholder">
-          <span>Photo</span>
-        </div>
-      </div>
-      
-      <div class="dna-wrapper">
-        <!-- Placeholder for 3D DNA Model -->
-        <div class="dna-placeholder">
-          <span>3D DNA Model Loading...</span>
+          <img
+            src="/images/profile.jpeg"
+            alt="Laura Llorente"
+            class="profile-photo"
+          />
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<script>
+  // Typing effect logic
+  const text = "Bioinformatics Student";
+  const speed = 100;
+  const element = document.querySelector(".subtitle");
+
+  if (element) {
+    element.textContent = "";
+    let i = 0;
+
+    function typeWriter() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    // Start typing when the page loads
+    window.addEventListener("load", typeWriter);
+  }
+</script>
+
 <style>
   .hero {
+    position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding-top: 80px; /* Account for fixed navbar */
-    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+    padding-top: 60px; /* Account for fixed navbar */
+    background: linear-gradient(135deg, #fdfbf7 0%, #efebe9 100%);
+    overflow: hidden;
+  }
+
+  .dna-strip {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .dna-strip img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+  }
+
+  .top-strip {
+    top: 0;
+  }
+
+  .bottom-strip {
+    bottom: 0;
   }
 
   .hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     gap: 4rem;
     align-items: center;
+    position: relative;
+    z-index: 2;
   }
 
   .subtitle {
@@ -100,23 +156,30 @@
   .photo-wrapper {
     position: relative;
     z-index: 2;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
+    width: 400px;
+    height: 500px;
+    border-radius: 20px;
     overflow: hidden;
     border: 8px solid white;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   }
 
   .photo-placeholder {
     width: 100%;
     height: 100%;
-    background: #dfe6e9;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #636e72;
     font-weight: 600;
+  }
+
+  .profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(1);
   }
 
   .dna-wrapper {

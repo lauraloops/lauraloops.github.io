@@ -2,45 +2,53 @@
 const skillCategories = [
   {
     title: "Programming & Data",
-    skills: ["Python", "R", "SQL", "Bash/Shell", "Git", "Java"]
+    description:
+      "Proficient in data analysis and scripting using <strong>Python</strong>, <strong>R</strong>, and <strong>SQL</strong>. Experienced with <strong>Bash/Shell</strong> scripting and version control with <strong>Git</strong>.",
   },
   {
     title: "Bioinformatics Tools",
-    skills: ["BLAST", "PyMOL", "Bioconductor", "GROMACS", "Nextflow", "Galaxy"]
+    icon: "🧬",
+    description:
+      "Skilled in using standard bioinformatics tools such as <strong>BLAST</strong>, <strong>PyMOL</strong>, and <strong>GROMACS</strong>. Experience with workflow managers like <strong>Nextflow</strong> and platforms like <strong>Galaxy</strong>.",
   },
   {
     title: "Web & Visualization",
-    skills: ["HTML/CSS", "JavaScript", "React", "D3.js", "Tableau", "Matplotlib"]
+    icon: "📊",
+    description:
+      "Capable of creating interactive visualizations using <strong>D3.js</strong>, <strong>Tableau</strong>, and <strong>Matplotlib</strong>. Web development skills include <strong>HTML/CSS</strong>, <strong>JavaScript</strong>, and <strong>React</strong>.",
   },
   {
     title: "Soft Skills",
-    skills: ["Problem Solving", "Scientific Writing", "Team Collaboration", "Project Management", "Communication"]
-  }
+    icon: "🤝",
+    description:
+      "Strong <strong>problem-solving</strong> and <strong>scientific writing</strong> abilities. Effective in <strong>team collaboration</strong> and <strong>project management</strong>, with excellent <strong>communication</strong> skills.",
+  },
 ];
 ---
 
 <section id="skills" class="skills">
   <div class="container">
-    <h2 class="section-title">Technical Skills</h2>
-    
+    <h2 class="section-title reveal">Technical Skills</h2>
+
     <div class="skills-grid">
-      {skillCategories.map((category) => (
-        <div class="skill-category">
-          <h3>{category.title}</h3>
-          <ul class="skill-list">
-            {category.skills.map((skill) => (
-              <li>{skill}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      {
+        skillCategories.map((category, index) => (
+          <div class={`reveal stagger-${(index % 4) + 1}`}>
+            <div class="skill-card">
+              <h3>{category.title}</h3>
+              <p class="skill-description" set:html={category.description} />
+            </div>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
 
 <style>
   .skills {
-    background: white;
+    background: var(--color-bg);
+    position: relative;
   }
 
   .skills-grid {
@@ -49,35 +57,65 @@ const skillCategories = [
     gap: 2rem;
   }
 
-  .skill-category {
-    background: #f8f9fa;
-    padding: 2rem;
-    border-radius: 8px;
-    border-top: 4px solid var(--color-primary);
-  }
-
-  .skill-category h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    color: var(--color-dark);
-  }
-
-  .skill-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .skill-card {
+    background: #ffffff;
+    padding: 0rem 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(141, 110, 99, 0.1);
+    box-shadow: 0 10px 30px rgba(62, 39, 35, 0.03);
+    text-align: center;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    /* Transition and other styles are now in global.css */
   }
 
-  .skill-list li {
-    background: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
+  .icon-wrapper {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    background: var(--color-bg);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .skill-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+    position: relative;
+    z-index: 2;
+  }
+
+  .skill-description {
+    font-size: 1rem;
     color: var(--color-text);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border: 1px solid #eee;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Highlighted text style */
+  .skill-description :global(strong) {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .skill-card:hover {
+    transform: scale(1.1);
+  }
+
+  .skill-card:hover .skill-description,
+  .skill-card:hover .skill-description :global(strong) {
+    color: #fff;
+  }
+
+  .skill-card:hover .icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
   }
 </style>
